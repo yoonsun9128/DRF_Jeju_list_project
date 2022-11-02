@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from selenium import webdriver
+
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import time
@@ -26,10 +27,12 @@ driver = webdriver.Chrome(chromedriver,chrome_options=chrome_options)
 # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 
 
+
 # 네이버 지도 검색창에 [~동 @@식당]으로 검색해 정확도를 높여야 합니다. 검색어를 미리 설정해줍시다.
 
 jeju_store['naver_keyword'] = jeju_store['address'] # "%20"는 띄어쓰기를 의미합니다.
 jeju_store['naver_map_url'] = ''
+
 naver_map_star_review_stars_list = []
 naver_map_star_review_qty_list = []
 # 본격적으로 가게 상세페이지의 URL을 가져옵시다
@@ -51,6 +54,7 @@ for i, keyword in enumerate(jeju_store['naver_keyword'].tolist()):
         if "li:nth-child(1)" in str(e1):  # -> "child(1)이 없던데요?"
             try:
                 jeju_store.iloc[i,-1] = driver.find_element(By.CSS_SELECTOR,"#info\.search\.place\.list > li > div.info_item > div.contact.clickArea > a.moreview").get_attribute('href')
+
                 time.sleep(1)
             except Exception as e2:
                 print(e2)
@@ -58,6 +62,7 @@ for i, keyword in enumerate(jeju_store['naver_keyword'].tolist()):
                 time.sleep(1)
         else:
             pass
+
 print(jeju_store)
 print(naver_map_star_review_stars_list)
 print(naver_map_star_review_qty_list)
@@ -133,3 +138,4 @@ driver.quit()
 
 # # # 별점 평균, 수 같은 데이터 역시 스트링 타입으로 크롤링이 되었으므로 numeric으로 바꿔줍니다.
 # # jeju_store[['naver_star_point', 'naver_star_point_qty']] = jeju_store[['naver_star_point', 'naver_star_point_qty']].apply(pd.to_numeric)
+=
