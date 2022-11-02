@@ -138,4 +138,3 @@ driver.quit()
 
 # # # 별점 평균, 수 같은 데이터 역시 스트링 타입으로 크롤링이 되었으므로 numeric으로 바꿔줍니다.
 # # jeju_store[['naver_star_point', 'naver_star_point_qty']] = jeju_store[['naver_star_point', 'naver_star_point_qty']].apply(pd.to_numeric)
-=
