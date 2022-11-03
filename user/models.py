@@ -36,7 +36,7 @@ class User(AbstractBaseUser):
     )
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-
+    # favorite 추가 예정
     objects = UserManager()
 
     USERNAME_FIELD = 'email'
