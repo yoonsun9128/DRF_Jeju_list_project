@@ -36,7 +36,7 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'is_active', 'is_admin')
+        fields = ('username', 'password', 'is_active', 'is_admin',)
 
 
 class UserAdmin(BaseUserAdmin):
@@ -52,7 +52,7 @@ class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'password1', 'password2'),
+            'fields': ('username', 'password1', 'password2',),
         }),
     )
     search_fields = ('username',)
