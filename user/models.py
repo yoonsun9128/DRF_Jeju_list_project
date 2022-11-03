@@ -9,12 +9,11 @@ class UserManager(BaseUserManager):
     def create_user(self, username, password=None):
 
         if not username:
-            #이메일이 아니라면? -> username 검사 해봐 -> 없어? -> 에러 띄워 '이메일이나 아이디를 확인해라'
-
+            
             raise ValueError('Users must have an username')
 
         user = self.model(
-            username=self.normalize_username(username),
+            username=username,
         )
 
         user.set_password(password)
@@ -23,7 +22,6 @@ class UserManager(BaseUserManager):
 
     def create_superuser(self, username, password=None):
         user = self.create_user(
-            username,
             password=password,
             username=username
         )
