@@ -4,24 +4,28 @@ from django.contrib.auth.models import (
 )
 
 
-class UserManager(BaseUserManager):
-    def create_user(self, email, password=None):
 
-        if not email:
-            raise ValueError('Users must have an email address')
+class UserManager(BaseUserManager):
+    def create_user(self, username, password=None):
+
+        if not username:
+            #이메일이 아니라면? -> username 검사 해봐 -> 없어? -> 에러 띄워 '이메일이나 아이디를 확인해라'
+
+            raise ValueError('Users must have an username')
 
         user = self.model(
-            email=self.normalize_email(email),
+            username=self.normalize_username(username),
         )
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password=None):
+    def create_superuser(self, username, password=None):
         user = self.create_user(
-            email,
+            username,
             password=password,
+            username=username
         )
         user.is_admin = True
         user.save(using=self._db)
@@ -29,21 +33,17 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser):
-    email = models.EmailField(
-        verbose_name='email address',
-        max_length=255,
-        unique=True,
-    )
+    username = models.CharField(max_length=15, unique=True, verbose_name = 'username')
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    # favorite 추가 예정
+    # favorite
     objects = UserManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return self.email
+        return self.username
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
