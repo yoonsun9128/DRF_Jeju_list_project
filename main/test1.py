@@ -18,7 +18,7 @@ import os , django, time
 # os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DRF_Jeju_List.settings")
 # django.setup()
 from main.models import Store
-
+# 포문 하나로 뭉친거
 def GetStoreId():
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--headless')
@@ -56,15 +56,17 @@ def GetStoreId():
         # df.iloc[i,-1] = driver.find_element '//*[@id="info.search.place.list"]/li/div[5]/div[4]/a[1]').click()
 
     # for url in store_detail_list:
-        url = url.split('/')
         print(url[-1])
-        store = Store(store_id=url[-1])
+        store = Store(store_id=url.split('/')[-1])
 
     # for store in store_detail_list:
         # driver.get(https://place.map.kakao.com/+f{'store_id'})
-        print
+        print(1)
+        print(url)
         driver.get(url)
+        print(2)
         time.sleep(3)
+        print(3)
         review_info = {
             'store': '',
             'tags': [],
@@ -93,14 +95,15 @@ def GetStoreId():
             review_info['tags'].append(review_tags)
             print(review_content)
         # store_info.append(review_info)
-        store.review_info['tags']
-        store.review_info['contents']
-        store.review_info['star']
+        store.menu = review_info['tags']
+        store.content = review_info['contents']
+        store.star = review_info['star']
         store.save()
         # Store(menu=review_info['tags'], content=review_info['contents'], star=review_info['star']).save()
 
         # print(review_info)
         # return review_info
+        # 태그만 먼저 뽑아내서 중복 삭제 태그에 저장
+        # 태그의 아이디로 리뷰 저장
 
 GetStoreId()
-
