@@ -13,12 +13,9 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.service import Service
 from tqdm import tqdm
 from django.conf import settings
-# settings.configure(DEBUG=True)
-import os , django, time
-# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "DRF_Jeju_List.settings")
-# django.setup()
-from main.models import Store
-
+import time
+from main.models import Store, Tags, Reviews
+# 포문 하나로 뭉친거
 def GetStoreId():
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument('--headless')
@@ -28,7 +25,7 @@ def GetStoreId():
 
         # df = pd.read_csv('main/jejulist.csv', encoding='cp949')
     df1 = pd.read_csv('main/jejulist.csv', encoding='utf-8')
-    df = df1.head(5)
+    df = df1.head(1)
 
     jeju_store = df[['업소명','소재지','메뉴']]
     print(jeju_store.head())
@@ -38,8 +35,6 @@ def GetStoreId():
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 
     jeju_store['kakao_keyword'] = jeju_store['address'] # "%20"는 띄어쓰기를 의미합니다.
-    store_detail_list = []
-    store_id_list = []
 
     # 상세페이지 주서 따기
     # store_info = []
@@ -51,56 +46,56 @@ def GetStoreId():
         time.sleep(2)
         df.iloc[i,-1] = driver.find_element(By.CSS_SELECTOR,"#info\.search\.place\.list > li > div.info_item > div.contact.clickArea > a.moreview").get_attribute('href')
 
-        # store_detail_list.append(df.iloc[i,-1])
         url = df.iloc[i,-1]
-        # df.iloc[i,-1] = driver.find_element '//*[@id="info.search.place.list"]/li/div[5]/div[4]/a[1]').click()
+        store_id = url.split('/')[-1]
+        store = Store(store_id=store_id)
 
-    # for url in store_detail_list:
-        url = url.split('/')
-        print(url[-1])
-        store = Store(store_id=url[-1])
-
-    # for store in store_detail_list:
-        # driver.get(https://place.map.kakao.com/+f{'store_id'})
-        print
         driver.get(url)
         time.sleep(3)
+        # review = Reviews(content=review_info['contents'])
         review_info = {
             'store': '',
-            'tags': [],
-            'contents': [],
             'star': '',
         }
+        tags_list = {
+            'name':[],
+        }
+        review_list = {
+            'content':[]
+        }
+        review_model = Reviews()
+        tag_model = Tags()
         review_info['star'] = driver.find_element(By.CLASS_NAME,"ahead_info").find_element(By.CLASS_NAME,"grade_star").find_element(By.CLASS_NAME, "num_rate").text
         reviews = driver.find_element(By.CLASS_NAME,"list_evaluation").find_elements(By.TAG_NAME, "li")
         for review in reviews:
             review_content = {}
-            review_tags = {}
+            review_tags = set()
             if not review.text : #or driver.find_element(By.CLASS_NAME,"group_likepoint").find_elements(By.TAG_NAME, "span"):
                 continue
             try:
                 tags = review.find_element(By.CLASS_NAME, "group_likepoint").find_elements(By.TAG_NAME, "span")
-                review_tags= [x.text for x in tags]
+                review_tags = [x.text for x in tags]
             except NoSuchElementException:
                 review_tags = None
-
             try:
                 review_content = review.find_element(By.CLASS_NAME, "txt_comment").text
             except NoSuchElementException:
                 # 식별값(있지만 없어도 되는 값)
                 review_content = None
-            review_info['contents'].append(review_content)
-            review_info['tags'].append(review_tags)
-            print(review_content)
-        # store_info.append(review_info)
-        store.review_info['tags']
-        store.review_info['contents']
-        store.review_info['star']
-        store.save()
-        # Store(menu=review_info['tags'], content=review_info['contents'], star=review_info['star']).save()
+            review_list['content'].append(review_content)
+            tags_list['name'].append(review_tags)
 
-        # print(review_info)
-        # return review_info
+        print(review_list)
+
+        # tag_model.name = tags_list
+        review_model.content = review_list['content']
+        store.star = review_info['star']
+        store.save()
+        review_model.store = store
+        # tag_model.save()
+        review_model.save()
+
+        # 태그만 먼저 뽑아내서 중복 삭제 태그에 저장
+        # 태그의 아이디로 리뷰 저장
 
 GetStoreId()
-
