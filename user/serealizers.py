@@ -17,6 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+
     def update(self, validated_updata):
         user = super().create(validated_updata) # todo 수정
         password = user.password
@@ -24,6 +25,22 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
     
+    def validate(self, data):
+        if not len(data.get("username", "")) >= 4:
+            raise serializers.ValidationError(
+                detail={"error": "username의 길이는 4자리 이상이어야 합니다."}
+            )
+        if not len(data.get("password", "")) >= 4:
+            raise serializers.ValidationError(
+                detail={"error": "password의 길이는 4자리 이상이어야합니다."}
+            )
+        # if not data.get("username, '") == User.username:  
+        #     raise serializers.ValidationError(
+        #         detail={"error": f"{data.get()}존재합니다."}
+        #     )   
+        return data
+
+        
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):

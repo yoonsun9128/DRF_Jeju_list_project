@@ -4,34 +4,32 @@ import re
 from urllib.request import urlopen
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from .models import Store
 
-stores = pd.read_csv('storedata.csv', encoding='UTF-8')
+stores = pd.read_csv('main/storedata.csv', encoding='UTF-8')
+
 # head() 안에 숫자를 넣지 않으면 5개만 나온다
 # stores = stores.head()
-
-print(stores)
-print('overview 열의 결측값의 수:',stores['content'].isnull().sum())
-
 stores['합침'] = (stores['store_name']) + (stores['content'])
-print(stores['합침'][0])
+# print(stores['합침'][0])
 #결측값을 빈 값으로 대체
 stores['합침'] = stores['합침'].fillna('')
 tfidf = TfidfVectorizer(stop_words='english')
 tfidf_matrix = tfidf.fit_transform(stores['content'])
-print('TF-IDF 행렬의 크기(shape):',tfidf_matrix.shape)
+# print('TF-IDF 행렬의 크기(shape):',tfidf_matrix.shape)
 
 cosine_sim = cosine_similarity(tfidf_matrix, tfidf_matrix)
-print('코사인 유사도 연산 결과 :',cosine_sim.shape)
+# print('코사인 유사도 연산 결과 :',cosine_sim.shape)
 
 # 순서를 부여
 indices = pd.Series(stores.index, index=stores['store_name']).drop_duplicates()
-print(indices.head())
+# print(indices.head())
 
 # 가게 인덱스 값 확인하기
 title_to_index = dict(zip(stores['store_name'], stores.index))
-print("두번째",title_to_index)
+# print("두번째",title_to_index)
 idx = title_to_index['풍천만가']
-print(idx)
+# print(idx)
 
 def get_recommendations(title, cosine_sim=cosine_sim):
     # 선택한 영화의 타이틀로부터 해당 영화의 인덱스를 받아온다.
@@ -57,4 +55,4 @@ def get_recommendations(title, cosine_sim=cosine_sim):
     # 가장 유사한 10개의 영화의 제목을 리턴한다.
     print(stores['store_name'].iloc[store_indices])
 
-get_recommendations('풍천만가')
+# get_recommendations('풍천만가')
