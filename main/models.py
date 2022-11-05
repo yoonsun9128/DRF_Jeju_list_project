@@ -1,4 +1,5 @@
 from django.db import models
+from user.models import User
 
 # Create your models here.
 class Store(models.Model):
@@ -16,3 +17,11 @@ class Tags(models.Model):
         db_table = 'tags'
     name = models.ManyToManyField(Store, related_name='store')
 
+class Reviews(models.Model):
+    class meta:
+        db_table = 'review'
+    store = models.ForeignKey(Store, on_delete=models.CASCADE)
+    content = models.TextField()
+    tag = models.ManyToManyField(Tags, related_name='review')
+    review_id = models.CharField(max_length=100)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
