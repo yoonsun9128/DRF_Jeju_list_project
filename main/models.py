@@ -7,16 +7,12 @@ class Store(models.Model):
     address = models.TextField() # 가게 주소
     star = models.TextField() # 가게 별점
     img = models.TextField(max_length=256, default='')
+    content = models.TextField(null=True)
     class meta:
         db_table = 'store'
+
 class Tags(models.Model):
     class meta:
         db_table = 'tags'
-    name = models.CharField(max_length=256)
-class Reviews(models.Model):
-    class meta:
-        db_table = 'review'
-    store = models.ForeignKey(Store, on_delete=models.CASCADE)
-    content = models.TextField()
-    tag = models.ManyToManyField(Tags, related_name='review')
+    name = models.ManyToManyField(Store, related_name='store')
 
