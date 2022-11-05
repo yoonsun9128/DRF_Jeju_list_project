@@ -34,7 +34,6 @@ class User(AbstractBaseUser):
     username = models.CharField(max_length=15, unique=True, verbose_name = 'username')
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    # favorite
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
