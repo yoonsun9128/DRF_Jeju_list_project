@@ -7,7 +7,7 @@ class Store(models.Model):
     store_name = models.TextField() #상호명
     address = models.TextField() # 가게 주소
     star = models.TextField() # 가게 별점
-    img = models.TextField(max_length=256, default='')
+    img = models.TextField(max_length=256, default='', null=True)
     content = models.TextField(null=True)
     class meta:
         db_table = 'store'

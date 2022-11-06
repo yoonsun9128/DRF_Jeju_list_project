@@ -54,6 +54,7 @@ def GetStoreId():
             'store_name': [],
             'star': '',
             'content': [],
+            'img': [],
         }
         tags_list = {
             'name':[],
@@ -64,6 +65,12 @@ def GetStoreId():
             review_info['star'] = driver.find_element(By.CLASS_NAME,"ahead_info").find_element(By.CLASS_NAME,"grade_star").find_element(By.CLASS_NAME, "num_rate").text
         except NoSuchElementException:
             review_info['star'] = None
+        try:
+            image = driver.find_element(By.CLASS_NAME, "photo_area").find_element(By.CLASS_NAME, "link_photo").get_attribute("style").split('"')[1]
+            review_info['img'] = image
+        except NoSuchElementException:
+            review_info['img'] = None
+            
 
         try:
             reviews = driver.find_element(By.CLASS_NAME,"list_evaluation").find_elements(By.TAG_NAME, "li")
@@ -112,7 +119,8 @@ def GetStoreId():
         store.store_name = review_info['store_name']
         store.content = review_info['content']
         store.star = review_info['star']
+        store.img = review_info['img']
         store.save()
 
-# GetStoreId()
+GetStoreId()
 
