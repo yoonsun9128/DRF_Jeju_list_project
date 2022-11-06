@@ -3,7 +3,7 @@ from user.models import User
 
 # Create your models here.
 class Store(models.Model):
-    store_id = models.CharField(max_length=100) # https://map.kakao.com/여기
+    store_url = models.CharField(max_length=100) # https://map.kakao.com/여기
     store_name = models.TextField() #상호명
     address = models.TextField() # 가게 주소
     star = models.TextField() # 가게 별점
@@ -24,7 +24,7 @@ class Comment(models.Model):
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now = True)
-    
+
     def __str__(self):
         return str(self.content)
 

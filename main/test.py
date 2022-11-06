@@ -24,12 +24,12 @@ def GetStoreId():
     chrome_options.add_argument("--single-process")
     chrome_options.add_argument("--disable-dev-shm-usage")
         # df = pd.read_csv('main/jejulist.csv', encoding='cp949')
-        
+
     df = pd.read_csv('main/jejulist_dev.csv', encoding='utf-8')
-    
+
     jeju_store = df[['업소명','소재지','메뉴']]
     jeju_store.columns = [ 'name','address','menu']
-    
+
     chrome_options = webdriver.ChromeOptions()
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
     jeju_store['kakao_keyword'] = jeju_store['address'] + "%20" + jeju_store['name'] # "%20"는 띄어쓰기를 의미합니다.
@@ -70,7 +70,7 @@ def GetStoreId():
             review_info['img'] = image
         except NoSuchElementException:
             review_info['img'] = None
-            
+
 
         try:
             reviews = driver.find_element(By.CLASS_NAME,"list_evaluation").find_elements(By.TAG_NAME, "li")
