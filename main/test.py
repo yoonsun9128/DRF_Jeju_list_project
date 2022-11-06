@@ -5,16 +5,11 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.by import By
-from pprint import pprint
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.chrome.service import Service
 from tqdm import tqdm
-from django.conf import settings
 import time
-from main.models import Store, Tags
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.metrics.pairwise import linear_kernel
-from sklearn.metrics.pairwise import cosine_similarity
+from main.models import Store
 
 # 포문 하나로 뭉친거
 def GetStoreId():
@@ -27,8 +22,8 @@ def GetStoreId():
 
     df = pd.read_csv('main/jejulist_dev.csv', encoding='utf-8')
 
-    jeju_store = df[['업소명','소재지','메뉴']]
-    jeju_store.columns = [ 'name','address','menu']
+    jeju_store = df[['업소명','소재지']]
+    jeju_store.columns = [ 'name','address']
 
     chrome_options = webdriver.ChromeOptions()
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
@@ -45,7 +40,7 @@ def GetStoreId():
             continue
         url = df.iloc[i,-1]
         store_id = url.split('/')[-1]
-        store = Store(store_id=store_id)
+        store = Store(store_url=store_id)
         driver.get(url)
 
         time.sleep(2)
@@ -56,10 +51,10 @@ def GetStoreId():
             'content': [],
             'img': [],
         }
-        tags_list = {
-            'name':[],
-        }
-        tag_model = Tags()
+        # tags_list = {
+        #     'name':[],
+        # }
+        # tag_model = Tags()
         review_info['store_name'] = driver.find_element(By.CLASS_NAME, "inner_place").find_element(By.CLASS_NAME, "tit_location").text
         try:
             review_info['star'] = driver.find_element(By.CLASS_NAME,"ahead_info").find_element(By.CLASS_NAME,"grade_star").find_element(By.CLASS_NAME, "num_rate").text
@@ -71,7 +66,6 @@ def GetStoreId():
         except NoSuchElementException:
             review_info['img'] = None
 
-
         try:
             reviews = driver.find_element(By.CLASS_NAME,"list_evaluation").find_elements(By.TAG_NAME, "li")
         except NoSuchElementException:
@@ -79,48 +73,29 @@ def GetStoreId():
         try:
             while True:
                 more_button = driver.find_element(By.CLASS_NAME,"link_more")
-                # print(type(more_button.text), "접기" in more_button.text)
                 if "접기" in more_button.text:
                     break
-                # print("clicked!!!!")
-                # print(more_button.text)
                 more_button.click()
         except BaseException:
             pass
 
         for review in reviews:
             review_content_str = {}
-            review_tags = set()
-            if not review.text : #or driver.find_element(By.CLASS_NAME,"group_likepoint").find_elements(By.TAG_NAME, "span"):
+            if not review.text :
                 continue
-            try:
-                tags = review.find_element(By.CLASS_NAME, "group_likepoint").find_elements(By.TAG_NAME, "span")
-                review_tags = [x.text for x in tags]
-            except NoSuchElementException:
-                review_tags = None
-            # try:
-            #     review_more = review.find_element(By.CLASS_NAME, "txt_comment").find_element(By.TAG_NAME, "button")
-            #     review_more.click()
-            # except:
-            #     continue
             try:
                 review_content = review.find_element(By.CLASS_NAME, "txt_comment").text
                 result = ''.join(s for s in review_content)
                 review_content_str = result.replace("\n", "")
-                print(review_content_str)
             except NoSuchElementException:
                 # 식별값(있지만 없어도 되는 값)
                 review_content_str = None
             review_info['content'].append(review_content_str)
-            tags_list['name'].append(review_tags)
         review_info['content'] = ''.join(map(str,review_info['content']))
-        print(review_info)
-            # tag_model.name = tags_list
         store.store_name = review_info['store_name']
         store.content = review_info['content']
         store.star = review_info['star']
         store.img = review_info['img']
         store.save()
 
-GetStoreId()
 
