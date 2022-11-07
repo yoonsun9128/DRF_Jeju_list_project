@@ -8,9 +8,8 @@ frontend repo = (asdasdasdasdasd)
 + ㅁㅇㄴ
   - ㅁㄴㅇ
 
-# Lists
 
-+ 팀 구성원
+# 팀 구성원
   - **김남훈** 머신러닝/백엔드 [블로그 링크](https://hunss.tistory.com/)
   - **김서영** 머신러닝/백엔드 [블로그 링크](https://velog.io/@ksykma)
   - **김인해** 프론트엔드/백엔드 [블로그 링크](https://oceandevelopment.tistory.com/)
