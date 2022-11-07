@@ -7,12 +7,20 @@ from rest_framework.views import APIView
 from rest_framework.filters import SearchFilter
 from rest_framework import generics
 from main import function
+from main import test
 from main.function import *
 import random
+#파일 형서하는데 필요한 코드
+# import json , csv, os, requests
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "onepaper.settings")
+# import django
+# django.setup()
+
+# test.GetStoreId()
 
 class StoreListView(APIView):
     def get(self, request):
-        All_store = Store.objects.filter(star__gte=3.5)
+        All_store = list(Store.objects.filter(star__gte=3.5))
         stores = random.sample(All_store, 6)
         serializer = StoreListSerializer(stores, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -26,6 +34,7 @@ class StoreListView(APIView):
 class StoreSearchView(APIView):
     def get(self, request, store_id) :
         store = Store.objects.get(id = store_id) # stores = 사형제횟짐
+        print(store)
         store_obj = store.store_name
 
         function_stores = function.get_recommendations(store_obj, cosine_a) #stores=사형제횟집을 넣은 유사도검사 결과값을 function_stores에 넣음.
@@ -34,8 +43,10 @@ class StoreSearchView(APIView):
             store_info = Store.objects.get(store_name = store)  # 가장 비슷한 리뷰를 가진 상호명들 중에 a를 뽑아서 디비에서 a의 상호명을 가져와서 a의 모든 정보를 store_info에 넣음
             function_stores_info.append(store_info) # store_info을 function_stores_info에 차곡차곡 쌓음
         serializer = StoreListSerializer(function_stores_info, many=True) # 시리얼라이즈하기
+        click_store = StoreListSerializer(store)
+        # 두개의 값을 보여주고 싶다!
         return Response(serializer.data, status=status.HTTP_200_OK)
-
+#sfedfsdf
 class CommentView(APIView):
     def get(self, request, store_id):
         store = Store.objects.get(id=store_id)
@@ -99,3 +110,13 @@ class CommentView(APIView):
 #             return Response({"message": "댓글 작성자가 아닙니다"}, status=status.HTTP_403_FORBIDDEN)
 
 
+
+# 파일 저장하는 코드
+# with open('storedata.csv', 'w', newline='') as csvfile:
+#     fieldnames = ['id','store_url','store_name','content']
+#     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+#     writer.writeheader()
+
+#     for store in Store.objects.all():
+#         writer.writerow({'id':store.id, 'store_url':store.store_url,'store_name':store.store_name,'content':store.content })
