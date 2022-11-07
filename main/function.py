@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from .models import Store
 
-stores = pd.read_csv('main/storedata_dev.csv', encoding='UTF-8')
+stores = pd.read_csv('main/storedata.csv', encoding='UTF-8')
 
 # head() 안에 숫자를 넣지 않으면 5개만 나온다
 # stores = stores.head()
@@ -57,6 +57,8 @@ def get_recommendations(title, cosine_sim=cosine_a):
         print(x)
         data = stores['store_name'].iloc[x]
         store_result.append(data)
+
+    store_result.append(stores['store_name'].iloc[store_indices])
 
     return store_result
 

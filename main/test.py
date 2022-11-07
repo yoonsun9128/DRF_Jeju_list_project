@@ -20,7 +20,7 @@ def GetStoreId():
     chrome_options.add_argument("--disable-dev-shm-usage")
         # df = pd.read_csv('main/jejulist.csv', encoding='cp949')
 
-    df = pd.read_csv('main/jejulist_dev.csv', encoding='utf-8')
+    df = pd.read_csv('main/jejulist.csv', encoding='utf-8')
 
     jeju_store = df[['업소명','소재지']]
     jeju_store.columns = [ 'name','address']
@@ -50,12 +50,18 @@ def GetStoreId():
             'star': '',
             'content': [],
             'img': [],
+            'address':''
         }
         # tags_list = {
         #     'name':[],
         # }
         # tag_model = Tags()
         review_info['store_name'] = driver.find_element(By.CLASS_NAME, "inner_place").find_element(By.CLASS_NAME, "tit_location").text
+        try:
+            review_info['address'] = driver.find_element(By.CLASS_NAME,"details_placeinfo").find_element(By.CLASS_NAME,"placeinfo_default").find_element(By.CLASS_NAME,"txt_address").text
+        except NoSuchElementException:
+            continue
+
         try:
             review_info['star'] = driver.find_element(By.CLASS_NAME,"ahead_info").find_element(By.CLASS_NAME,"grade_star").find_element(By.CLASS_NAME, "num_rate").text
         except NoSuchElementException:
