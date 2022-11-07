@@ -1,11 +1,9 @@
 from main.models import Store, Comment
-from main.serializers import StoreListSerializer, CommentSerializer, StoreSerializer, CommentCreateSerializer
+from main.serializers import StoreListSerializer, CommentSerializer, CommentCreateSerializer
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.generics import get_object_or_404
 from rest_framework.views import APIView
-from rest_framework.filters import SearchFilter
-from rest_framework import generics
 from main import function
 from main import test
 from main.function import *
@@ -22,6 +20,7 @@ class StoreListView(APIView):
     def get(self, request):
         All_store = list(Store.objects.filter(star__gte=3.5))
         stores = random.sample(All_store, 6)
+        # store = Store.objects.all() #테스트
         serializer = StoreListSerializer(stores, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -34,7 +33,6 @@ class StoreListView(APIView):
 class StoreSearchView(APIView):
     def get(self, request, store_id) :
         store = Store.objects.get(id = store_id) # stores = 사형제횟짐
-        print(store)
         store_obj = store.store_name
 
         function_stores = function.get_recommendations(store_obj, cosine_a) #stores=사형제횟집을 넣은 유사도검사 결과값을 function_stores에 넣음.
@@ -44,11 +42,8 @@ class StoreSearchView(APIView):
             print(store_info)
             function_stores_info.append(store_info) # store_info을 function_stores_info에 차곡차곡 쌓음
         serializer = StoreListSerializer(function_stores_info, many=True) # 시리얼라이즈하기
-        print(serializer.data)
-        # click_store = StoreListSerializer(store)
-        # 두개의 값을 보여주고 싶다!
         return Response(serializer.data, status=status.HTTP_200_OK)
-#sfedfsdf
+    
 class CommentView(APIView):
     def get(self, request, store_id):
         store = Store.objects.get(id=store_id)
@@ -63,54 +58,6 @@ class CommentView(APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def put(self, request, store_id, comment_id):
-        comment = get_object_or_404(Comment, id=comment_id)
-
-        if request.user == comment.user:
-            serializer = CommentCreateSerializer(comment, data=request.data)
-            if serializer.is_valid():
-                serializer.save()
-                return Response(serializer.data, status=status.HTTP_200_OK)
-            else:
-                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-        else:
-            return Response("권한이 없습니다!", status=status.HTTP_403_FORBIDDEN)
-
-    def delete(self, request, store_id, comment_id):
-        comment = get_object_or_404(Comment, id=comment_id)
-
-        if request.user == comment.user:
-            comment.delete()
-            return Response({"message": "해당 댓글을 삭제합니다"}, status=status.HTTP_204_NO_CONTENT)
-
-        else:
-            return Response({"message": "댓글 작성자가 아닙니다"}, status=status.HTTP_403_FORBIDDEN)
-
-# class CommentDetailView(APIView):
-#     def put(self, request, store_id, comment_id):
-#         comment = get_object_or_404(Comment, id=comment_id)
-
-#         if request.user == comment.user:
-#             comment_serializer = CommentCreateSerializer(comment, data=request.data)
-#             if comment_serializer.is_valid():
-#                 comment_serializer.save()
-#                 return Response(comment_serializer.data, status=status.HTTP_200_OK)
-#             else:
-#                 return Response(comment_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#         else:
-#             return Response("권한이 없습니다!", status=status.HTTP_403_FORBIDDEN)
-
-#     def delete(self, request, store_id, comment_id):
-#         comment = get_object_or_404(Comment, id=comment_id)
-
-#         if request.user == comment.user:
-#             comment.delete()
-#             return Response({"message": "해당 댓글을 삭제합니다"}, status=status.HTTP_204_NO_CONTENT)
-
-#         else:
-#             return Response({"message": "댓글 작성자가 아닙니다"}, status=status.HTTP_403_FORBIDDEN)
-
 
 
 # 파일 저장하는 코드

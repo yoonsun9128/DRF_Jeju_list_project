@@ -45,7 +45,7 @@ def get_recommendations(title, cosine_sim=cosine_a):
     # print("함수2",sim_scores)
 
     # 가장 유사한 10개의 가게 받아온다.유사도 검사결과
-    sim_scores = sim_scores[1:6]
+    sim_scores = sim_scores[1:7]
     # print("함수3",sim_scores)
 
     # 가장 유사한 10개의 가게 인덱스를 얻는다.
@@ -57,9 +57,9 @@ def get_recommendations(title, cosine_sim=cosine_a):
         # print(x)
         data = stores['store_name'].iloc[x]
         store_result.append(data)
-
+    print(store_result)
     # store_result.append(stores['store_name'].iloc[store_indices])
-    # print(store_result)
+
     return store_result
 
 # get_recommendations('풍천만가')
