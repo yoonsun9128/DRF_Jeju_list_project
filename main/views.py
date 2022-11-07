@@ -41,9 +41,11 @@ class StoreSearchView(APIView):
         function_stores_info = []
         for store in function_stores :
             store_info = Store.objects.get(store_name = store)  # 가장 비슷한 리뷰를 가진 상호명들 중에 a를 뽑아서 디비에서 a의 상호명을 가져와서 a의 모든 정보를 store_info에 넣음
+            print(store_info)
             function_stores_info.append(store_info) # store_info을 function_stores_info에 차곡차곡 쌓음
         serializer = StoreListSerializer(function_stores_info, many=True) # 시리얼라이즈하기
-        click_store = StoreListSerializer(store)
+        print(serializer.data)
+        # click_store = StoreListSerializer(store)
         # 두개의 값을 보여주고 싶다!
         return Response(serializer.data, status=status.HTTP_200_OK)
 #sfedfsdf

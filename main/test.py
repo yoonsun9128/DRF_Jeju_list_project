@@ -102,6 +102,7 @@ def GetStoreId():
         store.content = review_info['content']
         store.star = review_info['star']
         store.img = review_info['img']
+        store.address = review_info['address']
         store.save()
 
 
