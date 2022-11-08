@@ -1,8 +1,8 @@
 # 내일배움캠프 Team 텔레토비태양
-***
+
 ## 심화DRF 추천시스템프로젝트 저장소
-***
-frontend repo = (asdasdasdasdasd)
+
+frontend repo = https://github.com/yoonsun9128/DRF_Jeju_list_project-frontend-
 
 # 팀원 역할 및 약속
 ## 팀원 역할
@@ -29,33 +29,46 @@ frontend repo = (asdasdasdasdasd)
  
 
  # 와이어프레임
-***
 ![image](https://user-images.githubusercontent.com/103415295/200363425-45d9095e-3a07-4162-8ab3-ef1abf46b152.png)
  
  # API설계
-***
+ + STORE APP
+![image](https://user-images.githubusercontent.com/103415295/200448140-faaad562-a249-42fe-8b7c-26d5ba67ef61.png)
+
+ + USER APP
+ ![image](https://user-images.githubusercontent.com/103415295/200448271-7cf56e80-a2ad-4d46-a376-bcfdf97d6ba4.png)
+
+
 
  # DB설계
+![image](https://user-images.githubusercontent.com/103415295/200444788-1995485e-5b1b-4132-af8e-ed4ca790e7b8.png)
+
 
  # 프로젝트 기능 명세서
- + 회원가입
-   - 닉네임과 비밀번호 길이 최소치 지정
-   - 
- + 로그인
- + 메인페이지
-   - CSV데이터를 카카오맵에 상호명 + 주소로 크롤링
-   - 크롤링 정보
-     * 상호명
-     * 가게 이미지
-     * 가게 리뷰 내용
-     * 별점
-   - 사용자는 별점이 높은 가게를 랜덤 리스트업
-   - 마음에 드는 가게 선택 가능
- + 머신러닝페이지
-   - 리뷰내용으로 코사인유사도검사
-   - 사용자가 선택한 가게와 유사한 가게 리스트업
-
-
+ ### 회원가입 & 로그인
+   + 닉네임과 비밀번호 길이 최소치 지정
+   + 빈 값으로 회원가입 시도시 경고창 생성
+   
+ ### 메인페이지
+   + CSV데이터를 카카오맵에 상호명 + 주소로 크롤링
+   + 크롤링 정보
+     - 상호명
+     - 가게 이미지
+     - 가게 리뷰 내용
+     - 별점
+   + 사용자는 별점이 높은 가게를 랜덤 리스트업
+   + 마음에 드는 가게를 선택할 시 머신러닝페이지로 이동
+   + 모달을 통해 가게에 대한 상세 정보 확인과 댓글 생성 가능
+ ### 머신러닝페이지
+   + 리뷰내용으로 코사인유사도검사
+   + 메인페이지에서 사용자가 선택한 가게와 유사한 가게 리스트업
+   + 모달을 통해 가게에 대한 상세 정보 확인과 댓글 생성 가능
+   
+ 
+ ### 앞으로 추가할 기능
+   + 소셜 회원가입/로그인 기능
+   + 마이페이지를 이용해 자신이 작성한 댓글 확인
+   + 가게에 대해 좋아요 기능
 
 
 # 기술 스택
