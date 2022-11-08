@@ -1,17 +1,18 @@
-# 내일배움캠프 Team 텔레토비태양
+# ![25](https://user-images.githubusercontent.com/103415295/200451827-97c67713-e0d2-4558-bf6f-f2b9846c0829.png)내일배움캠프 Team 텔레토비태양
 
 ## 심화DRF 추천시스템프로젝트 저장소
 
+
 frontend repo = https://github.com/yoonsun9128/DRF_Jeju_list_project-frontend-
 
-# 팀원 역할 및 약속
-## 팀원 역할
+# ![25](https://user-images.githubusercontent.com/103415295/200451827-97c67713-e0d2-4558-bf6f-f2b9846c0829.png)팀원 역할 및 약속
+### 팀원 역할
   - **김남훈** 머신러닝/백엔드 [블로그 링크](https://hunss.tistory.com/)
   - **김서영** 머신러닝/백엔드 [블로그 링크](https://velog.io/@ksykma)
   - **김인해** 프론트엔드/백엔드 [블로그 링크](https://oceandevelopment.tistory.com/)
   - **서장원** 프론트엔드/백엔드 [블로그 링크](https://sjw887.tistory.com/)
   - **최윤선** 머신러닝/백엔드 [블로그 링크](https://iced-coriander-f89.notion.site/TIL-WIL-Tistory-e8463c7836844157a40c2c76fbaf1c61)
-## 우리팀의 약속
+### 우리팀의 약속
   - 주말에도 프로젝트에 시간 할애하기
   - 하루의 해야 할 양을 정해서 하기
   - 커밋 약속: 생성 [Add], 수정 [Mod], 내용 자세하게 쓰기, 수시로 커밋하기, 브랜치 확인하기
@@ -28,10 +29,10 @@ frontend repo = https://github.com/yoonsun9128/DRF_Jeju_list_project-frontend-
   - Frontend와 Backend 서버를 별도로 구축하고 구현
  
 
- # 와이어프레임
+ # ![25](https://user-images.githubusercontent.com/103415295/200451837-221980f5-74f3-46f2-a56b-704e7c5ad91b.png)와이어프레임
 ![image](https://user-images.githubusercontent.com/103415295/200363425-45d9095e-3a07-4162-8ab3-ef1abf46b152.png)
  
- # API설계
+ # ![25](https://user-images.githubusercontent.com/103415295/200451854-3a9e805d-e24e-4035-a7b0-c6238b5c487b.png)API설계
  + STORE APP
 ![image](https://user-images.githubusercontent.com/103415295/200448140-faaad562-a249-42fe-8b7c-26d5ba67ef61.png)
 
@@ -40,11 +41,11 @@ frontend repo = https://github.com/yoonsun9128/DRF_Jeju_list_project-frontend-
 
 
 
- # DB설계
+ # ![25](https://user-images.githubusercontent.com/103415295/200451920-fa94cae7-f866-4c65-bbe0-3976fd8b350b.png)DB설계
 ![image](https://user-images.githubusercontent.com/103415295/200444788-1995485e-5b1b-4132-af8e-ed4ca790e7b8.png)
 
 
- # 프로젝트 기능 명세서
+ # ![25](https://user-images.githubusercontent.com/103415295/200451928-7782261a-3148-4069-a03c-eb79678a59cb.png)프로젝트 기능 명세서
  ### 회원가입 & 로그인
    + 닉네임과 비밀번호 길이 최소치 지정
    + 빈 값으로 회원가입 시도시 경고창 생성
@@ -71,7 +72,7 @@ frontend repo = https://github.com/yoonsun9128/DRF_Jeju_list_project-frontend-
    + 가게에 대해 좋아요 기능
 
 
-# 기술 스택
+# ![25](https://user-images.githubusercontent.com/103415295/200451936-b234dac2-a60a-4249-8a04-f03662eb0122.png)기술 스택
 
 ### 백엔드
 <img alt="Python" src ="https://img.shields.io/badge/Python-3776AB.svg?&style=for-the-badge&logo=Python&logoColor=white"/> <img src="https://img.shields.io/badge/Django-092E20?style=for-the-badge&logo=Django&logoColor=white">
