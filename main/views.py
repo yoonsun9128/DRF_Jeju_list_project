@@ -1,5 +1,5 @@
 from main.models import Store, Comment
-from main.serializers import StoreListSerializer, CommentSerializer, CommentCreateSerializer
+from main.serializers import StoreListSerializer, CommentSerializer
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.generics import get_object_or_404
@@ -52,7 +52,7 @@ class CommentView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, store_id):
-        serializer = CommentCreateSerializer(data=request.data)
+        serializer = CommentSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user, store_id=store_id)
             return Response(serializer.data, status=status.HTTP_200_OK)
