@@ -30,7 +30,6 @@ def GetStoreId():
     jeju_store['kakao_keyword'] = jeju_store['address'] + "%20" + jeju_store['name'] # "%20"는 띄어쓰기를 의미합니다.
 
     for i, keyword in enumerate(jeju_store['kakao_keyword'].tolist()):
-        print("이번에 찾을 키워드 :", i, f"/ {df.shape[0] -1} 행", keyword)
         kakao_map_search_url = f"https://map.kakao.com/?q={keyword}"
         driver.get(kakao_map_search_url)
         time.sleep(2)
